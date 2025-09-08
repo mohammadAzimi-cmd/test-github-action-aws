@@ -18,4 +18,4 @@ jobs:
 
 
       - name: check we got the code or not
-        run: ls -ll
+        run: python script.py
