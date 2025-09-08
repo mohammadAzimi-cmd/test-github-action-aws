@@ -9,3 +9,14 @@ jobs:
       - name: just test is gonna work or not
         run: free -h;df -h;lsblk;
 
+
+  second_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get The Code
+        uses: actions/checkout@v5
+
+      - name: check we got the code or not
+        run: |
+          ls -ll
+          lsblk -f
