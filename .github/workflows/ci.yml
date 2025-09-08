@@ -18,6 +18,4 @@ jobs:
 
 
       - name: check we got the code or not
-        run: |
-          ls -ll
-          lsblk -f
+        run: ls -ll
