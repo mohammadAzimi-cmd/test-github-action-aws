@@ -1,5 +1,9 @@
 name: just information
-on: workflow_dispatch
+on:
+  pull_request:
+    types:
+      - opened
+  workflow_dispatch:
 
 jobs:
   info:
@@ -7,4 +11,4 @@ jobs:
     steps:
       - name: uotput github context
         run: |
-          echo "${{ toJSON(github) }}"
+          echo "workflow has been triggered"
