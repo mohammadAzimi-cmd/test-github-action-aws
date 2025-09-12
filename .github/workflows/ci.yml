@@ -1,4 +1,4 @@
-name: ci
+name: this is ci workflow
 
 on: [push, workflow_dispatch]
 

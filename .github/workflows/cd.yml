@@ -1,4 +1,4 @@
-name: just information
+name: this is cd workflow
 on:
   pull_request:
     types:
