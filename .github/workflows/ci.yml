@@ -34,7 +34,7 @@ jobs:
         with:
           name: 'artifact'
           path: |
-            dist
+            script.py
 
   deploy:
     runs-on: ubuntu-latest
