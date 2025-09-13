@@ -1,10 +1,8 @@
 name: this is cd workflow
 on:
-  pull_request:
-    types:
-      - opened
-  workflow_dispatch:
-
+  push:
+    branches:
+      - main
 
 jobs:
   info:

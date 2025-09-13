@@ -1,6 +1,12 @@
 name: this is ci workflow
 
-on: [workflow_dispatch]
+on:
+  pull_request:
+  push:
+    branches:
+      - "dev-*" # all branches except main branch
+      - "feat/**"
+      - "main"
 
 jobs:
   test:
