@@ -36,6 +36,7 @@ jobs:
 
   test_cache:
     runs-on: ubuntu-latest
+    needs: test
     steps:
       - name: get the code
         uses: actions/checkout@v5
