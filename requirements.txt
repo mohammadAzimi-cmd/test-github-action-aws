@@ -1,1 +1,5 @@
 flask
+django
+djangorestframework
+django-cors-headers
+django-extension
