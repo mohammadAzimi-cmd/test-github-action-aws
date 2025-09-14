@@ -4,14 +4,9 @@ on:
   pull_request:
   push:
     branches:
-      - "dev-*" # all branches except main branch
+      - "dev-*"
       - "feat/**"
       - "main"
-#      -
-
-
-
-
 
 jobs:
   test:
@@ -20,19 +15,32 @@ jobs:
       - name: Get The Code
         uses: actions/checkout@v5
 
-      - name: check we got the code or not
-        run: python script.py
-
-      - name: Cache pip dependencies
+      - name: Cache virtual environment
+        id: cache-venv
         uses: actions/cache@v4
         with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          path: .venv
+          key: ${{ runner.os }}-venv-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
-            ${{ runner.os }}-pip-
+            ${{ runner.os }}-venv-
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies (only if venv not cached)
+        if: steps.cache-venv.outputs.cache-hit != 'true'
+        run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install -r requirements.txt
+
+      - name: Run lightweight tests
+        run: |
+          source .venv/bin/activate
+          python script.py
+
 
   test_cache:
     runs-on: ubuntu-latest
@@ -41,18 +49,21 @@ jobs:
       - name: get the code
         uses: actions/checkout@v5
 
-      # ✅ Restore the cache here too
-      - name: Cache pip dependencies
+      - name: Restore virtual environment
         uses: actions/cache@v4
         with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          path: .venv
+          key: ${{ runner.os }}-venv-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
-            ${{ runner.os }}-pip-
+            ${{ runner.os }}-venv-
 
-      - name: Install dependencies
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Use cached venv
         run: |
-          python -m venv .venv
           source .venv/bin/activate
-          pip install -r requirements.txt
-
+          # now your environment is ready without re-installing
+          pytest  # or your big job here
