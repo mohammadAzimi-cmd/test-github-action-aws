@@ -34,18 +34,14 @@ jobs:
         run: pip install -r requirements.txt
 
 
-  artifact:
+  test_cache:
     runs-on: ubuntu-latest
     steps:
       - name: get the code
         uses: actions/checkout@v5
 
-      - name: artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: 'artifact'
-          path: |
-            script.py
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
   deploy:
     runs-on: ubuntu-latest
