@@ -22,6 +22,9 @@ jobs:
       - name: check we got the code or not
         run: python script.py
 
+      - name: install requirement
+        run: pip install -r requirements.txt
+
 
   artifact:
     runs-on: ubuntu-latest
