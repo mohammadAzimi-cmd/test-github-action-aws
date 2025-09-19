@@ -15,6 +15,9 @@ env:
 
 jobs:
   test:
+    environment:
+      name: test
+#      url:
     runs-on: ubuntu-latest
     steps:
       - name: Get The Code
@@ -22,9 +25,8 @@ jobs:
 
       - name: test env variabable
         run: |
-          echo $DATABAE_PASSWORD
-          echo ${{env.DATABASE_URI}}
-          echo ${{env.DATABASE_USERNAME}}
+          echo ${{ secrets.USERNAME }}
+          echo ${{ secrets.PASSWORD }}
 
 
 
