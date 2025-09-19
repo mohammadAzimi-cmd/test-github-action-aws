@@ -22,7 +22,7 @@ jobs:
 
       - name: test env variabable
         run: |
-          echo ${{env.DATABAE_PASSWORD}}
+          echo $DATABAE_PASSWORD
           echo ${{env.DATABASE_URI}}
           echo ${{env.DATABASE_USERNAME}}
 
