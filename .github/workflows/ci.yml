@@ -13,6 +13,9 @@ jobs:
       - name: my first steps
         run: free -h;lsblk;
 
+
+
+
       - name: my second command
         run: ps aux
 
