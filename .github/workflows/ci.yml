@@ -14,4 +14,4 @@ jobs:
         run: free -h;lsblk;
 
       - name: my second command
-        run: pvs;vgs;lvs
+        run: ps aux
