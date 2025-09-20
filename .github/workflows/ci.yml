@@ -24,7 +24,7 @@ jobs:
           echo ls
 
       - name: use actions
-        uses: actions/checkout
+        uses: actions/checkout@v5
 
       - name: test is working
         run: ls -ll
