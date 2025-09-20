@@ -1,21 +1,17 @@
-name: this is ci workflow
+name: this is awesome workflow
+on:
+  push:
+    branches:
+#      - main
+      - dev
 
-on: [workflow_dispatch]
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Get The Code
-        uses: actions/checkout@v5
+      - name: my first steps
+        run: free -h;lsblk;
 
-      - name: check we got the code or not
-        run: python script.py
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-       - name: check we got the code or not
-         run: python -v
-
+      - name: my second command
+        run: pvs;vgs;lvs
