@@ -1,32 +1,17 @@
-name: this is ci workflow
-
+name: this is awesome workflow
 on:
-  pull_request:
   push:
     branches:
-      - "dev-*"
-      - "feat/**"
-      - "main"
+#      - main
+      - dev
 
-env:
-  DATABASE_URI: "127.0.0.1"
-  DATABASE_USERNAME: "mohammad"
-  DATABAE_PASSWORD: "123321"
 
 jobs:
-  test:
-    environment:
-      name: test
-#      url:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Get The Code
-        uses: actions/checkout@v5
+      - name: my first steps
+        run: free -h;lsblk;
 
-      - name: test env variabable
-        run: |
-          echo ${{ secrets.USERNAME }}
-          echo ${{ secrets.PASSWORD }}
-
-
-
+      - name: my second command
+        run: pvs;vgs;lvs
