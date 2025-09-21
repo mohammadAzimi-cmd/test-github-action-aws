@@ -18,5 +18,6 @@ jobs:
         run: |
           echo "MY_VAR=hello" >> $GITHUB_ENV
           cat $GITHUB_ENV
+          printenv
           
           
