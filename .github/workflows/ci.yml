@@ -18,6 +18,6 @@ jobs:
         run: |
           ls -ll
           python -V
-#          python script.py
+          python script.py
           
           
