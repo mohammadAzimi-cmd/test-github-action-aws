@@ -10,16 +10,20 @@ env:
 
 
 jobs:
+  env:
+    NAME: "mohammad"
+    FAMILY_NAME: "azimi"
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Clone Project Directory
+        env:
+          NAME: "mamad"
+          FAMILY_NAME: "jozani"
         uses: actions/checkout@v5
       - name: Publish To PIP
         shell: bash
         run: |
-          echo "MY_VAR=hello" >> $GITHUB_ENV
-          cat $GITHUB_ENV
-          printenv
-          
-          
+          echo $ ${{ env.NAME }}
+          echo $ ${{ env.FAMILY_NAME }}
+               
