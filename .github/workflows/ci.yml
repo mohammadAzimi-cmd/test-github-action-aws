@@ -3,27 +3,25 @@ name: awesome workflow for pure pyton
 on:
   push:
 
-
 env:
-  NAME: "mohammad"
-  FAMILY_NAME: "azimi"
-
+  NAME: "mohammad root"
+  FAMILY_NAME: "azimi root"
 
 jobs:
   env:
-    NAME: "mohammad"
-    FAMILY_NAME: "azimi"
+    NAME: "mohammad job"
+    FAMILY_NAME: "azimi job"
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Clone Project Directory
-        env:
-          NAME: "mamad"
-          FAMILY_NAME: "jozani"
+        env:   # 🥇 step-level env (highest precedence)
+          NAME: "mamad step"
+          FAMILY_NAME: "jozani step"
         uses: actions/checkout@v5
+
       - name: Publish To PIP
         shell: bash
         run: |
-          echo  ${{ env.NAME }}
-          echo  ${{ env.FAMILY_NAME }}
-               
+          echo ${{ env.NAME }}
+          echo ${{ env.FAMILY_NAME }}
