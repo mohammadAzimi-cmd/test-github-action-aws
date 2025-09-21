@@ -19,5 +19,6 @@ jobs:
           ls -ll
           python -V
           python script.py
+          cat $GITHUB_ENV
           
           
