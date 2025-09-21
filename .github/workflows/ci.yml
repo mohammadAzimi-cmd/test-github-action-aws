@@ -4,7 +4,9 @@ on:
   push:
 
 
-
+env:
+  NAME: "mohammad"
+  FAMILY_NAME: "azimi"
 
 
 jobs:
