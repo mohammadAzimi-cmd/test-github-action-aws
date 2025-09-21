@@ -24,6 +24,6 @@ jobs:
       - name: Publish To PIP
         shell: bash
         run: |
-          echo $ ${{ env.NAME }}
-          echo $ ${{ env.FAMILY_NAME }}
+          echo  ${{ env.NAME }}
+          echo  ${{ env.FAMILY_NAME }}
                
