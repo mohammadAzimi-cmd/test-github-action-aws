@@ -8,11 +8,11 @@ env:
   FAMILY_NAME: "azimi root"
 
 jobs:
-  env:
-    NAME: "mohammad job"
-    FAMILY_NAME: "azimi job"
   build:
     runs-on: ubuntu-latest
+    env:
+      NAME: "mohammad job"
+      FAMILY_NAME: "azimi job"
     steps:
       - name: Clone Project Directory
         env:   # 🥇 step-level env (highest precedence)
