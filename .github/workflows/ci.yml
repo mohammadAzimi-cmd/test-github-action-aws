@@ -16,6 +16,7 @@ jobs:
       - name: Publish To PIP
         shell: bash
         run: |
-          cat ${{GITHUB_ENV}}
+          echo "MY_VAR=hello" >> $GITHUB_ENV
+          cat $GITHUB_ENV
           
           
