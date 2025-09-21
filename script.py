@@ -1,5 +1,10 @@
+def do_sth_cool():
+    name = "mohammad"
+    arr = []
+    for i in name:
+        arr.append(i)
+
+    return arr
 
 
-
-for i in range(1, 10):
-    print(i)
+print(do_sth_cool())

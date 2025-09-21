@@ -1,31 +1,19 @@
-name: this is awesome workflow
+name: awesome workflow for pure pyton
+
 on:
   push:
-    branches:
-#      - main
-      - dev
+
 
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: my first steps
-        run: free -h;lsblk;
-
-      - name: my second command
-        run: ps aux
-
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: this is for deploy
-        run: |
-          echo ls
-
-      - name: use actions
+      - name: Clone Project Directory
         uses: actions/checkout@v5
-
-      - name: test is working
-        run: ls -ll
+      - name: Publish To PIP
+        shell: python
+        run: |
+          python script.py
+          
           
