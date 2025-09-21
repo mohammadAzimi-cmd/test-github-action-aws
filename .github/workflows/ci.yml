@@ -16,9 +16,6 @@ jobs:
       - name: Publish To PIP
         shell: bash
         run: |
-          ls -ll
-          python -V
-          python script.py
-          cat $GITHUB_ENV
+          cat ${{GITHUB_ENV}}
           
           
