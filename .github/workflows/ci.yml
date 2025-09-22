@@ -1,27 +1,21 @@
-name: awesome workflow for pure pyton
-
+name: Service Containers Demo
 on:
   push:
 
-env:
-  NAME: "mohammad root"
-  FAMILY_NAME: "azimi root"
 
 jobs:
-  build:
+  container-01:
     runs-on: ubuntu-latest
-    env:
-      NAME: "mohammad job"
-      FAMILY_NAME: "azimi job"
     steps:
-      - name: Clone Project Directory
-        env:   # 🥇 step-level env (highest precedence)
-          NAME: "mamad step"
-          FAMILY_NAME: "jozani step"
-        uses: actions/checkout@v5
-
-      - name: Publish To PIP
-        shell: bash
-        run: |
-          echo ${{ env.NAME }}
-          echo ${{ env.FAMILY_NAME }}
+      - uses: actions/checkout@v5
+    services:
+      nginx:
+        image: nginx
+        ports:
+          - 8080:80
+      database:
+        image: mysql:8.0.28
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ROOT_PASSWORD: 123321
