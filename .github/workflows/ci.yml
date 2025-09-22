@@ -15,7 +15,9 @@ jobs:
       - name: check mysql container is up and running??
         shell: bash
         run: |
-          mysql --host=127.0.0.1 --user=root --password=123321 --database=mysql;
+          mysql --host=127.0.0.1 --user=root --password=123321 --database=mysql
+      - name: create a database
+        run:
           mysql --host=127.0.0.1 --user=root --password=123321 --database=mysql --execute CREATE DATABASE MAMAD;
     services:
       nginx:
