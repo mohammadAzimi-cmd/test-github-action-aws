@@ -26,4 +26,4 @@ jobs:
          with:
           context: .
           push: true
-          tags: ghcr.io/test-github-action-aws/python_custom_build:${{ github.sha }}
+          tags: ghcr.io/test-github-action-aws:${{ github.sha }}
