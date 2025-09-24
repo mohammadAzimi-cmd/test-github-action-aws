@@ -6,7 +6,7 @@ on:
 jobs:
   prod-deploy:
     runs-on: ubuntu-latest
-    environment: production
+    environment: stage
     steps:
       - name: running production deployment
         run: echo "running production deployment"
