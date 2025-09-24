@@ -4,9 +4,11 @@ on:
   push:
 
 jobs:
-  prod-deploy:
+  build_docker_image:
     runs-on: ubuntu-latest
     environment: stage
     steps:
-      - name: running production deployment
-        run: echo "running production deployment"
+      - name: get the code first
+        uses: actions/checkout@v4
+
+#      - name:
