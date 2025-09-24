@@ -1,19 +1,12 @@
-name: this is awesome workflow
+name: Production Deployment
+
 on:
   push:
-#     branches:
-# #      - main
-#       - dev
-
 
 jobs:
-  build:
+  prod-deploy:
     runs-on: ubuntu-latest
+    environment: stage
     steps:
-      - name: my first steps
-        run: free -h;lsblk;
-
-
-
-      - name: my second command
-        run: pvs;vgs;lvs
+      - name: running production deployment
+        run: echo "running production deployment"
