@@ -3,10 +3,22 @@ name: Production Deployment
 on:
   push:
 
+
 jobs:
+  build-docker-image:
+    runs-on: ubuntu-latest
+    environment: stage
+    steps:
+      - name: build the docker image
+        run: echo "docker build -t test ."
+
+
   prod-deploy:
+    needs: build-docker-image
     runs-on: ubuntu-latest
     environment: stage
     steps:
       - name: running production deployment
         run: echo "running production deployment"
+
+
