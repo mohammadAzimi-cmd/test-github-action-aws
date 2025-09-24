@@ -9,7 +9,7 @@ permissions:
 jobs:
   build_docker_image:
     runs-on: ubuntu-latest
-    environment: stage
+    environment: production
     steps:
       - name: get the code first
         uses: actions/checkout@v4
