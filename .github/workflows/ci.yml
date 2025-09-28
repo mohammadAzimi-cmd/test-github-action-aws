@@ -26,4 +26,4 @@ jobs:
          with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.actor }}:${{ github.sha }}
+          tags: ghcr.io/my-app:${{ github.sha }}
