@@ -11,7 +11,8 @@ jobs:
     runs-on: self-hosted  # this tells GitHub to pick your runner
     steps:
       - uses: actions/checkout@v3
-      - run: docker --version   # can run Docker commands because your runner has access
+      - run: docker --version
+      - run: cat /etc/os-release
       - run: echo "Hello from self-hosted runner!"
 #  build_docker_image:
 #    runs-on: ubuntu-latest
