@@ -15,6 +15,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2
 
+
       - name: just test this aws cred
         shell: pwsh
         run: |
