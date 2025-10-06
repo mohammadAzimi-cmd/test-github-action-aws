@@ -17,6 +17,8 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::381492032953:role/github-action-oicd
           aws-region: us-west-2
+          audience: sts.amazonaws.com
+
 
       - name: get the code
         uses: actions/checkout@v3
