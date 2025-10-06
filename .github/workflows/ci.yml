@@ -15,10 +15,12 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2
 
+      - name: get the code
+        uses: actions/checkout@v3
 
       - name: just test this aws cred
-        shell: pwsh
+        shell: python
         run: |
-          Install-Module -Name AWS.Tools.EC2 -Force
-          Get-EC2Vpc
+          python -m pip install boto3
+          python script.py
 
