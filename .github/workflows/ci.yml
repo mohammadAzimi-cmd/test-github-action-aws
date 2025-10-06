@@ -20,7 +20,6 @@ jobs:
 
 
       - name: just test this aws cred
-        shell: python
         run: |
           pip install boto3
           python script.py
