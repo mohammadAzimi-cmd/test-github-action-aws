@@ -11,7 +11,7 @@ try:
     response = cf_client.create_stack(
         StackName=stack_name,
         TemplateBody=template_body,
-        Capabilities=['CAPABILITY_NAMED_IAM']  # if needed
+        # Capabilities=['CAPABILITY_NAMED_IAM']  # if needed
     )
     print(f"🚀 CloudFormation stack '{stack_name}' creation initiated.")
     print(f"Stack ID: {response['StackId']}")
