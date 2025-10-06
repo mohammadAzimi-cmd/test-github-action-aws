@@ -4,6 +4,10 @@ on:
   push:
 
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   aws-credentials:
     runs-on: ubuntu-latest
