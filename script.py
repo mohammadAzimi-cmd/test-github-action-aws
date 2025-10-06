@@ -8,7 +8,7 @@ with open('cloudFormationVPC.yaml', 'r') as f:
 
 
 try:
-    response = client.create_stack(
+    response = cloudformation.create_stack(
         StackName=stack_name,
         TemplateBody=template_body
         # Capabilities=['CAPABILITY_IAM'] # Includ
