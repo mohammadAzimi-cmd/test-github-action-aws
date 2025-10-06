@@ -1,22 +1,19 @@
 import boto3
 
-# Create an EC2 resource object (replace 'your-region' with your AWS region)
-ec2 = boto3.resource('ec2', region_name='us-west-2')
+cloudformation = boto3.resource('cloudformation', region_name='us-east-1')
+stack = cloudformation.Stack('mamad-test')
 
-# Iterate through all instances
-for instance in ec2.instances.all():
-    print(f"Instance ID: {instance.id}")
-    print(f"Instance Type: {instance.instance_type}")
-    print(f"State: {instance.state['Name']}")
-    print(f"Public IP: {instance.public_ip_address}")
-    # You can access other attributes like tags, launch time, etc.
-    for tag in instance.tags or []:  # Handle cases where instances might not have tags
-        if tag['Key'] == 'Name':
-            print(f"Name: {tag['Value']}")
-    print("-" * 20)
+with open('cloudFormationVPC.yaml', 'r') as f:
+    template_body = f.read()
 
-# To filter instances (e.g., by state)
-for instance in ec2.instances.filter(Filters=[{'Name': 'instance-state-name', 'Values': ['running']}]):
-    print(f"Running Instance ID: {instance.id}")
-    print(f"Running Instance Type: {instance.instance_type}")
-    print("-" * 20)
+
+try:
+    response = client.create_stack(
+        StackName=stack_name,
+        TemplateBody=template_body
+        # Capabilities=['CAPABILITY_IAM'] # Includ
+    )
+    print(f"CloudFormation stack '{stack_name}' creation initiated.")
+    print(f"Stack ID: {response['StackId']}")
+except Exception as e:
+    print(f"Error creating CloudFormation stack: {e}")
