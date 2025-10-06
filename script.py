@@ -1,7 +1,7 @@
 import boto3
 
 # Create an EC2 resource object (replace 'your-region' with your AWS region)
-ec2 = boto3.resource('ec2', region_name='us-west-1')
+ec2 = boto3.resource('ec2', region_name='us-west-2')
 
 # Iterate through all instances
 for instance in ec2.instances.all():
