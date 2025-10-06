@@ -15,7 +15,7 @@ jobs:
       - name: aws credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::381492032953:role/github-action-oidc
+          role-to-assume: arn:aws:iam::381492032953:role/github-action-oicd
           aws-region: us-west-2
 
       - name: get the code
