@@ -23,6 +23,9 @@ jobs:
       - name: get the code
         uses: actions/checkout@v3
 
-
       - name: run python script
-        run: python script.py
+        run: python script/get_all_region.py
+
+      - name: install rclone
+        run: |
+          sudo -v ; curl https://rclone.org/install.sh | sudo bash
