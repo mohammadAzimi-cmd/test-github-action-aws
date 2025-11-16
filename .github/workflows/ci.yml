@@ -53,7 +53,7 @@ jobs:
             -H "X-Vault-Token: $VAULT_TOKEN" \
             https://charging-jam-fashion-sharing.trycloudflare.com/v1/secret/data/test \
             | jq -r '.data.data.MY_SECRET')
-          echo "MY_SECRET=$SECRET"
+          echo "MY_SECRET=::add-mask::$SECRET"
           echo "MY_SECRET=$SECRET" >> $GITHUB_ENV
 
 
