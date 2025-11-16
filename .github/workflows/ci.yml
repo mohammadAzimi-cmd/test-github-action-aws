@@ -35,7 +35,6 @@ jobs:
               key: MY_SECRET
               format: dotenv
 
-
       - name: Print secret
         run: echo "SECRET = $MY_SECRET"
         env:
