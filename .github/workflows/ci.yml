@@ -19,7 +19,7 @@ jobs:
         id: vault-login
         uses: hashicorp/vault-action@v2
         with:
-          url: https://fundamentals-workshops-trunk-meat.trycloudflare.com
+          url: https://charging-jam-fashion-sharing.trycloudflare.com
           method: jwt
           role: github-action
 
@@ -27,7 +27,7 @@ jobs:
         id: vault-read
         uses: hashicorp/vault-action@v2
         with:
-          url: https://fundamentals-workshops-trunk-meat.trycloudflare.com
+          url: https://charging-jam-fashion-sharing.trycloudflare.com
           token: ${{ steps.vault-login.outputs.token }}
           secrets: |
             - path: secret/data/test
