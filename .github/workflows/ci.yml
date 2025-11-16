@@ -15,27 +15,38 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Login to Vault using GitHub OIDC
+      # Step 1: Get GitHub OIDC token
+      - name: Get GitHub OIDC token
+        id: idtoken
+        run: |
+          TOKEN=$(curl -sSL \
+            -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=vault" \
+            | jq -r '.value')
+          echo "GH_JWT=$TOKEN" >> $GITHUB_ENV
+
+      # Step 2: Login to Vault using JWT
+      - name: Login to Vault
         id: vault-login
-        uses: hashicorp/vault-action@v2
-        with:
-          url: https://charging-jam-fashion-sharing.trycloudflare.com
-          method: jwt
-          role: github-action
+        run: |
+          LOGIN=$(curl -s --request POST \
+            --data "{\"role\": \"github-action\", \"jwt\": \"$GH_JWT\"}" \
+            https://charging-jam-fashion-sharing.trycloudflare.com/v1/auth/jwt/login)
+          VAULT_TOKEN=$(echo $LOGIN | jq -r '.auth.client_token')
+          echo "VAULT_TOKEN=$VAULT_TOKEN" >> $GITHUB_ENV
 
-      - name: Read secret
+      # Step 3: Read KV v2 secret
+      - name: Read secret from Vault
         id: vault-read
-        uses: hashicorp/vault-action@v2
-        with:
-          url: https://charging-jam-fashion-sharing.trycloudflare.com
-          token: ${{ steps.vault-login.outputs.token }}
-          secrets: |
-            - engine_version: 2
-              path: secret/test
-              key: MY_SECRET
-              format: dotenv
+        run: |
+          SECRET=$(curl -s \
+            -H "X-Vault-Token: $VAULT_TOKEN" \
+            https://charging-jam-fashion-sharing.trycloudflare.com/v1/secret/data/test \
+            | jq -r '.data.data.MY_SECRET')
+          echo "MY_SECRET=$SECRET" >> $GITHUB_ENV
 
+      # Step 4: Use the secret
       - name: Print secret
         run: echo "SECRET = $MY_SECRET"
         env:
-          MY_SECRET: ${{ steps.vault-read.outputs.MY_SECRET }}
+          MY_SECRET: ${{ env.MY_SECRET }}
