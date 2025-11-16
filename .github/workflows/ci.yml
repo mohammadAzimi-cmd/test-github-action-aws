@@ -45,3 +45,15 @@ jobs:
             exit 1
           fi
           echo "VAULT_TOKEN=$VAULT_TOKEN" >> $GITHUB_ENV
+
+      - name: Read secret from Vault
+        id: vault-read
+        run: |
+          SECRET=$(curl -s \
+            -H "X-Vault-Token: $VAULT_TOKEN" \
+            https://charging-jam-fashion-sharing.trycloudflare.com/v1/secret/data/test \
+            | jq -r '.data.data.MY_SECRET')
+          echo "MY_SECRET=$SECRET"
+          echo "MY_SECRET=$SECRET" >> $GITHUB_ENV
+
+
