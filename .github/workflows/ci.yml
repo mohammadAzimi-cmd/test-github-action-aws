@@ -8,48 +8,40 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      id-token: write
+      id-token: write     
       contents: read
 
     steps:
-      - name: Checkout
+      - name: Checkout repo
         uses: actions/checkout@v4
 
       # Step 1: Get GitHub OIDC token
-      - name: Get GitHub OIDC token
-        id: idtoken
+      - name: Debug OIDC token
+        id: oidc
         run: |
+          echo "Fetching OIDC token"
           TOKEN=$(curl -sSL \
             -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
-            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=vault" \
-            | jq -r '.value')
-          echo "GH_JWT=$TOKEN" >> $GITHUB_ENV
+            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=https://github.com/mohammadAzimi-cmd")
+          echo "OIDC TOKEN:"
+          echo $TOKEN
+          GH_JWT=$(echo $TOKEN | jq -r '.value')
+          echo "GH_JWT=$GH_JWT" >> $GITHUB_ENV
 
       # Step 2: Login to Vault using JWT
-      - name: Login to Vault
+      - name: Vault login via OIDC
         id: vault-login
         run: |
-          LOGIN=$(curl -s --request POST \
+          LOGIN=$(curl -s -X POST \
+            -H "Content-Type: application/json" \
             --data "{\"role\": \"github-action\", \"jwt\": \"$GH_JWT\"}" \
             https://charging-jam-fashion-sharing.trycloudflare.com/v1/auth/jwt/login)
+          echo "Vault login response:"
+          echo $LOGIN
           VAULT_TOKEN=$(echo $LOGIN | jq -r '.auth.client_token')
+          echo "VAULT_TOKEN=$VAULT_TOKEN"
+          if [ "$VAULT_TOKEN" == "null" ] || [ -z "$VAULT_TOKEN" ]; then
+            echo "Vault login failed! Check role, bound_subject, and bound_audiences"
+            exit 1
+          fi
           echo "VAULT_TOKEN=$VAULT_TOKEN" >> $GITHUB_ENV
-
-      - name: Debug Vault token
-        run: echo $VAULT_TOKEN
-
-      # Step 3: Read KV v2 secret
-      - name: Read secret from Vault
-        id: vault-read
-        run: |
-          SECRET=$(curl -s \
-            -H "X-Vault-Token: $VAULT_TOKEN" \
-            https://charging-jam-fashion-sharing.trycloudflare.com/v1/secret/data/test \
-            | jq -r '.data.data.MY_SECRET')
-          echo "MY_SECRET=$SECRET" >> $GITHUB_ENV
-
-      # Step 4: Use the secret
-      - name: Print secret
-        run: echo "SECRET = $MY_SECRET"
-        env:
-          MY_SECRET: ${{ env.MY_SECRET }}
