@@ -1,19 +1,40 @@
-name: this is awesome workflow
-on:
-  push:
-    branches:
-#      - main
-      - dev
+name: Vault OIDC Test
 
+on:
+  workflow_dispatch:
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read
+
     steps:
-      - name: my first steps
-        run: free -h;lsblk;
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
+      - name: Login to Vault using GitHub OIDC
+        id: vault-login
+        uses: hashicorp/vault-action@v2
+        with:
+          url: https://fundamentals-workshops-trunk-meat.trycloudflare.com
+          method: jwt
+          role: github-action
 
+      - name: Read secrets from Vault
+        id: vault-read
+        uses: hashicorp/vault-action@v2
+        with:
+          url: https://fundamentals-workshops-trunk-meat.trycloudflare.com
+          token: ${{ steps.vault-login.outputs.token }}
+          secrets: |
+            - path: secret/data/test
+              engine_version: 2
+              format: dotenv
 
-      - name: my second command
-        run: pvs;vgs;lvs
+      - name: Print secret (for testing)
+        run: echo "SECRET = $MY_SECRET"
+        env:
+          MY_SECRET: ${{ steps.vault-read.outputs.MY_SECRET }}
