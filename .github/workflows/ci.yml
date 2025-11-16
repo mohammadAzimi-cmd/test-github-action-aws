@@ -1,24 +1,40 @@
-name: Production Deployment
+name: Vault OIDC Test
 
 on:
-  push:
-
+  workflow_dispatch:
 
 jobs:
-  build-docker-image:
+  test:
     runs-on: ubuntu-latest
-    environment: stage
+
+    permissions:
+      id-token: write
+      contents: read
+
     steps:
-      - name: build the docker image
-        run: echo "docker build -t test ."
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
+      - name: Login to Vault using GitHub OIDC
+        id: vault-login
+        uses: hashicorp/vault-action@v2
+        with:
+          url: https://fundamentals-workshops-trunk-meat.trycloudflare.com
+          method: jwt
+          role: github-action
 
-  prod-deploy:
-    needs: build-docker-image
-    runs-on: ubuntu-latest
-    environment: stage
-    steps:
-      - name: running production deployment
-        run: echo "running production deployment"
+      - name: Read secrets from Vault
+        id: vault-read
+        uses: hashicorp/vault-action@v2
+        with:
+          url: https://fundamentals-workshops-trunk-meat.trycloudflare.com
+          token: ${{ steps.vault-login.outputs.token }}
+          secrets: |
+            - path: secret/data/test
+              engine_version: 2
+              format: dotenv
 
-
+      - name: Print secret (for testing)
+        run: echo "SECRET = $MY_SECRET"
+        env:
+          MY_SECRET: ${{ steps.vault-read.outputs.MY_SECRET }}
