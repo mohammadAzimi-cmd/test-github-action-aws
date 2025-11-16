@@ -12,7 +12,7 @@ jobs:
       contents: read
 
     steps:
-      - name: Checkout repo
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Login to Vault using GitHub OIDC
@@ -31,10 +31,11 @@ jobs:
           token: ${{ steps.vault-login.outputs.token }}
           secrets: |
             - path: secret/data/test
+              key: MY_SECRET
               engine_version: 2
               format: dotenv
 
-      - name: Print secret (for testing)
+      - name: Print secret
         run: echo "SECRET = $MY_SECRET"
         env:
           MY_SECRET: ${{ steps.vault-read.outputs.MY_SECRET }}
