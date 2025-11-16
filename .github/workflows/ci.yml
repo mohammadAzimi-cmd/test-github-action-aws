@@ -21,7 +21,7 @@ jobs:
         with:
           url: https://fundamentals-workshops-trunk-meat.trycloudflare.com
           method: jwt
-          role: github-action
+          role: github-actions
 
       - name: Read secrets from Vault
         id: vault-read
