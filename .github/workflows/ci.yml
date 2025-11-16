@@ -30,7 +30,7 @@ jobs:
           url: https://charging-jam-fashion-sharing.trycloudflare.com
           token: ${{ steps.vault-login.outputs.token }}
           secrets: |
-            - path: secret/data/test
+            - path: secret/test
               key: MY_SECRET
               engine_version: 2
               format: dotenv
