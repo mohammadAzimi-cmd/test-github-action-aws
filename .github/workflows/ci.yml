@@ -35,6 +35,9 @@ jobs:
           VAULT_TOKEN=$(echo $LOGIN | jq -r '.auth.client_token')
           echo "VAULT_TOKEN=$VAULT_TOKEN" >> $GITHUB_ENV
 
+      - name: Debug Vault token
+        run: echo $VAULT_TOKEN
+
       # Step 3: Read KV v2 secret
       - name: Read secret from Vault
         id: vault-read
