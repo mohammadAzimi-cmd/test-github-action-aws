@@ -1,31 +1,40 @@
-name: this is awesome workflow
-
+name: Vault OIDC Test
 
 on:
-  push:
-
-permissions:
-  id-token: write
-
-
-
+  workflow_dispatch:
 
 jobs:
-  aws_cloudformation:
+  test:
     runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read
+
     steps:
-      - name: Authenticate to AWS Using OpenID Connect
-        uses: aws-actions/configure-aws-credentials@v5
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Login to Vault using GitHub OIDC
+        id: vault-login
+        uses: hashicorp/vault-action@v2
         with:
-          role-to-assume: arn:aws:iam::381492032953:role/github-action-oidc
-          aws-region: us-west-2
+          url: https://fundamentals-workshops-trunk-meat.trycloudflare.com
+          method: jwt
+          role: github-action
 
-      - name: get the code
-        uses: actions/checkout@v3
+      - name: Read secrets from Vault
+        id: vault-read
+        uses: hashicorp/vault-action@v2
+        with:
+          url: https://fundamentals-workshops-trunk-meat.trycloudflare.com
+          token: ${{ steps.vault-login.outputs.token }}
+          secrets: |
+            - path: secret/data/test
+              engine_version: 2
+              format: dotenv
 
-      - name: run python script
-        run: python script/get_all_region.py
-
-      - name: install rclone
-        run: |
-          sudo -v ; curl https://rclone.org/install.sh | sudo bash
+      - name: Print secret (for testing)
+        run: echo "SECRET = $MY_SECRET"
+        env:
+          MY_SECRET: ${{ steps.vault-read.outputs.MY_SECRET }}
